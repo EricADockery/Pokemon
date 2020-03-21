@@ -15,6 +15,9 @@
 		F4A3E37B2426ABD3006925C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4A3E3792426ABD3006925C2 /* LaunchScreen.storyboard */; };
 		F4A3E3862426ABD3006925C2 /* MyDexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E3852426ABD3006925C2 /* MyDexTests.swift */; };
 		F4A3E3912426ABD3006925C2 /* MyDexUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E3902426ABD3006925C2 /* MyDexUITests.swift */; };
+		F4A3E3A22426AD23006925C2 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E3A12426AD23006925C2 /* NetworkClient.swift */; };
+		F4A3E3A42426AF48006925C2 /* PokemonCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E3A32426AF48006925C2 /* PokemonCharacter.swift */; };
+		F4A3E3A62426AFC5006925C2 /* Butterfree.json in Resources */ = {isa = PBXBuildFile; fileRef = F4A3E3A52426AFC5006925C2 /* Butterfree.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		F4A3E38C2426ABD3006925C2 /* MyDexUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyDexUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A3E3902426ABD3006925C2 /* MyDexUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDexUITests.swift; sourceTree = "<group>"; };
 		F4A3E3922426ABD3006925C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4A3E3A12426AD23006925C2 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		F4A3E3A32426AF48006925C2 /* PokemonCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCharacter.swift; sourceTree = "<group>"; };
+		F4A3E3A52426AFC5006925C2 /* Butterfree.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Butterfree.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +105,10 @@
 		F4A3E36D2426ABD2006925C2 /* MyDex */ = {
 			isa = PBXGroup;
 			children = (
-				F4A3E36E2426ABD2006925C2 /* AppDelegate.swift */,
-				F4A3E3702426ABD2006925C2 /* SceneDelegate.swift */,
-				F4A3E3722426ABD2006925C2 /* ViewController.swift */,
-				F4A3E3742426ABD2006925C2 /* Main.storyboard */,
+				F4A3E3A02426AC4C006925C2 /* Models */,
+				F4A3E39F2426AC41006925C2 /* Delegates */,
+				F4A3E39E2426AC2C006925C2 /* UI */,
 				F4A3E3772426ABD3006925C2 /* Assets.xcassets */,
-				F4A3E3792426ABD3006925C2 /* LaunchScreen.storyboard */,
 				F4A3E37C2426ABD3006925C2 /* Info.plist */,
 			);
 			path = MyDex;
@@ -113,6 +117,7 @@
 		F4A3E3842426ABD3006925C2 /* MyDexTests */ = {
 			isa = PBXGroup;
 			children = (
+				F4A3E3A52426AFC5006925C2 /* Butterfree.json */,
 				F4A3E3852426ABD3006925C2 /* MyDexTests.swift */,
 				F4A3E3872426ABD3006925C2 /* Info.plist */,
 			);
@@ -126,6 +131,34 @@
 				F4A3E3922426ABD3006925C2 /* Info.plist */,
 			);
 			path = MyDexUITests;
+			sourceTree = "<group>";
+		};
+		F4A3E39E2426AC2C006925C2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F4A3E3722426ABD2006925C2 /* ViewController.swift */,
+				F4A3E3792426ABD3006925C2 /* LaunchScreen.storyboard */,
+				F4A3E3742426ABD2006925C2 /* Main.storyboard */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F4A3E39F2426AC41006925C2 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				F4A3E36E2426ABD2006925C2 /* AppDelegate.swift */,
+				F4A3E3702426ABD2006925C2 /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		F4A3E3A02426AC4C006925C2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F4A3E3A12426AD23006925C2 /* NetworkClient.swift */,
+				F4A3E3A32426AF48006925C2 /* PokemonCharacter.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4A3E3A62426AFC5006925C2 /* Butterfree.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,8 +294,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4A3E3732426ABD2006925C2 /* ViewController.swift in Sources */,
+				F4A3E3A42426AF48006925C2 /* PokemonCharacter.swift in Sources */,
 				F4A3E36F2426ABD2006925C2 /* AppDelegate.swift in Sources */,
 				F4A3E3712426ABD2006925C2 /* SceneDelegate.swift in Sources */,
+				F4A3E3A22426AD23006925C2 /* NetworkClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
