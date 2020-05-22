@@ -21,6 +21,16 @@ class MyDexTests: XCTestCase {
         }
         XCTAssert(true, "Found Butterfree \(butterfree)")
     }
+    
+    func testDecodingAllPokemon() {
+        let allPokemonData = data(for: "allPokemon")
+        let decoder = JSONDecoder()
+        guard let allPokemon = try? decoder.decode(AllPokemon.self, from: allPokemonData) else {
+            XCTFail("Failed to decode all pokemon data response")
+            return
+        }
+        XCTAssert(true, "Found all pokemon data \(allPokemon)")
+    }
 }
 
 func data(for fileName: String) -> Data {

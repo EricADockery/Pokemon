@@ -36,14 +36,14 @@ struct Stats: Codable {
 }
 
 struct Sprites: Codable {
-    let backFemale: String //back_female
-    let backShinyFemale: String // back_shiny_female
-    let backDefault: String // back_default
-    let frontFemale: String // front_female
-    let frontShinyFemale: String // front_shiny_female
-    let backShiny: String // back_shiny
-    let frontDefault: String // front_default
-    let frontShiny: String // front_shiny
+    let backFemale: String? //back_female
+    let backShinyFemale: String? // back_shiny_female
+    let backDefault: String? // back_default
+    let frontFemale: String? // front_female
+    let frontShinyFemale: String? // front_shiny_female
+    let backShiny: String? // back_shiny
+    let frontDefault: String? // front_default
+    let frontShiny: String? // front_shiny
     
     private enum CodingKeys: String, CodingKey {
         case backFemale = "back_female"
@@ -222,7 +222,7 @@ struct PokemonCharacter: Codable {
     let forms: [Forms]
     let gameIndices: [GameIndices ]// game_indices
     let heldItems: [HeldItems] // held_items
-    let locationAreaEncounters: [LocationAreaEncounters] // location_area_encounters
+    let locationAreaEncounters: String // location_area_encounters
     let moves: [Move]
     let species: Species
     let sprites: Sprites
@@ -248,4 +248,16 @@ struct PokemonCharacter: Codable {
         case stats
         case types
     }
+}
+
+struct TopLevelPokemon: Codable {
+    let name: String
+    let url: String
+}
+
+struct AllPokemon: Codable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: [TopLevelPokemon]
 }

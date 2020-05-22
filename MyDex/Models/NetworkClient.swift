@@ -9,15 +9,20 @@
 import Foundation
 import Combine
 
-public class NetworkClient {
-    public static let shared = NetworkClient()
+enum Error: Swift.Error {
+      case badResponseCode(Int)
+      case malformedURL
+  }
+
+class NetworkClient {
+    static let shared = NetworkClient()
     
     private let session = URLSession(configuration: .ephemeral)
     private let decodeQueue = DispatchQueue.init(label: "NetworkClient.Decode.Queue", qos: .userInitiated)
     
     private init() { }
     
-    public func performCodableRequest<ModelType: Codable>(_ urlRequest: URLRequest, decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<ModelType, Swift.Error> {
+    func performCodableRequest<ModelType: Codable>(_ urlRequest: URLRequest, decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<ModelType, Swift.Error> {
         performDataRequest(urlRequest)
             .receive(on: decodeQueue)
             .decode(type: ModelType.self, decoder: decoder)
@@ -25,7 +30,8 @@ public class NetworkClient {
             .eraseToAnyPublisher()
     }
     
-    public func performDataRequest(_ urlRequest: URLRequest) -> AnyPublisher<Data, Swift.Error> {
+    //everything calling into the Network layer should be codable.
+    private func performDataRequest(_ urlRequest: URLRequest) -> AnyPublisher<Data, Swift.Error> {
         session.dataTaskPublisher(for: urlRequest)
             .tryMap { (data, response) -> Data in
                 if let httpURLResponse = response as? HTTPURLResponse,
@@ -36,10 +42,5 @@ public class NetworkClient {
             }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
-    }
-    
-    public enum Error: Swift.Error {
-        case badResponseCode(Int)
-        case malformedURL
     }
 }
