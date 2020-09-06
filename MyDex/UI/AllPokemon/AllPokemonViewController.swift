@@ -64,7 +64,7 @@ class AllPokemonViewController: UIViewController {
         super.viewDidLoad()
         allPokemonViewModel = AllPokemonViewModel(pokemonFetcher: PokemonFetcher())
         collectionView.dataSource = dataSource
-        //Don't forget the dollar sign yo
+        //Don't forget the dollar sign when referencing publishers
         pokemonSubscriber = allPokemonViewModel?.$allPokemon.sink() { [weak self] allPokemon in
             guard !(allPokemon?.results.isEmpty ?? true) else { return }
             self?.activityIndicator.stopAnimating()
@@ -74,7 +74,7 @@ class AllPokemonViewController: UIViewController {
     }
 }
 
-//MARK: Delegate Methods
+//MARK: DataSource Methods
 extension AllPokemonViewController {
     
     func makeDataSource() ->  UICollectionViewDiffableDataSource<PokemonSection, TopLevelPokemon> {
