@@ -255,6 +255,10 @@ struct TopLevelPokemon: Codable {
     let url: String
 }
 
+extension TopLevelPokemon: Hashable {
+    
+}
+
 struct AllPokemon: Codable {
     let count: Int
     let next: String?
