@@ -1,9 +1,9 @@
 //
 //  NetworkClient.swift
-//  MRTToolbox
+//  MyDex
 //
-//  Created by Michael Thomas on 11/9/18.
-//  Copyright © 2018 Michael Thomas. All rights reserved.
+//  Created by Eric Dockery on 3/21/20.
+//  Copyright © 2020 Eric Dockery. All rights reserved.
 //
 
 import Foundation

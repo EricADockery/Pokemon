@@ -17,14 +17,13 @@ class PokemonViewModel: ObservableObject, Identifiable {
     
     private let pokemonFetcher: PokemonFetcher
     
-    init(pokemonFetcher: PokemonFetcher, number: Int) {
+    init(pokemonFetcher: PokemonFetcher, topLevelPokemon: TopLevelPokemon) {
         self.pokemonFetcher = pokemonFetcher
-        updateView(for: number)
+        updateView(for: topLevelPokemon.url)
     }
     
-    func updateView(for number: Int) {
-        pokemonFetcher.pokemon(for: number)
-            .sink(receiveCompletion: { error in
+    func updateView(for location: String) {
+        pokemonFetcher.pokemon(for: location).sink(receiveCompletion: { error in
                 switch error {
                 case .failure(let error):
                     print("Error: \(error.self)")

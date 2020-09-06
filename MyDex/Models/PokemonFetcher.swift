@@ -24,9 +24,9 @@ class PokemonFetcher: Fetcher {
     
     private let pokemonEndpoint = "/api/v2/pokemon/"
         
-    func pokemon(for ID: Int) -> AnyPublisher<PokemonCharacter, Swift.Error>  {
+    func pokemon(for location: String) -> AnyPublisher<PokemonCharacter, Swift.Error>  {
         //force unwrap because I don't know how to guard return error here...
-        guard let pokemonURL = URL(string: "\(baseURLString)\(pokemonEndpoint)\(ID)") else {
+        guard let pokemonURL = URL(string: location) else {
             let error = Error.malformedURL
             return Fail(error: error).eraseToAnyPublisher()
         }

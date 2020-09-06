@@ -11,25 +11,28 @@ import Combine // this is needed for the subscribers in the view controller
 
 final class PokemonViewController: UIViewController {
         
-    private var pokemonViewModel: PokemonViewModel?
+    let pokemonViewModel: PokemonViewModel
     
     //subscribes to the data change on the publisher.
     private var pokemonCharacterSubscriber: AnyCancellable?
-   
+        
     @IBOutlet private weak var pokemonName: UILabel!
+    
+    init?(coder: NSCoder, pokemonViewModel: PokemonViewModel) {
+           self.pokemonViewModel = pokemonViewModel
+           super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pokemonViewModel = PokemonViewModel(pokemonFetcher: PokemonFetcher(), number: 807)
-        pokemonCharacterSubscriber = pokemonViewModel?.$pokemonCharacter.sink() { [weak self] pokemon in
+        self.title = "Detail View"
+        pokemonCharacterSubscriber = pokemonViewModel.$pokemonCharacter.sink() { [weak self] pokemon in
             self?.pokemonName.text = pokemon?.name
         }
-    }
-    
-    
-    @IBAction func updatePokemon(_ sender: UIButton) {
-        let randomPokemon = Int.random(in: 1...807)
-        pokemonViewModel?.updateView(for: randomPokemon)
     }
 }
