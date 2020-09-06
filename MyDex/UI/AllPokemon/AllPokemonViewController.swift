@@ -20,8 +20,8 @@ class AllPokemonViewModel: ObservableObject, Identifiable {
     
     init(pokemonFetcher: PokemonFetcher) {
         self.pokemonFetcher = pokemonFetcher
-        pokemonFetcher.fetchAllPokemon().sink(receiveCompletion: { error in
-            switch error {
+        pokemonFetcher.fetchAllPokemon().sink(receiveCompletion: { completion in
+            switch completion {
             case .failure(let error):
                 print("Error: \(error.self)")
             case .finished:
@@ -29,8 +29,7 @@ class AllPokemonViewModel: ObservableObject, Identifiable {
             }
         }) { [weak self] allPokemon in
             self?.allPokemon = allPokemon
-        }
-        .store(in: &disposables)
+            }.store(in: &disposables)
     }
 }
 
@@ -52,8 +51,6 @@ class PokemonCollectionCell: UICollectionViewCell {
 class AllPokemonViewController: UIViewController {
     private var pokemonSubscriber: AnyCancellable?
     private var allPokemonViewModel: AllPokemonViewModel?
-    //for some reason when in the .sink() method the allPokemonViewModels allPokemon is empty even though the subscriber returns it/
-    private var allPokemon = [TopLevelPokemon]()
     //we have to store a reference so that when we call applySnapshot it works (also it will deallocate?? when we don't have it stored.
     private lazy var dataSource = makeDataSource()
     
@@ -68,8 +65,9 @@ class AllPokemonViewController: UIViewController {
         pokemonSubscriber = allPokemonViewModel?.$allPokemon.sink() { [weak self] allPokemon in
             guard !(allPokemon?.results.isEmpty ?? true) else { return }
             self?.activityIndicator.stopAnimating()
-            self?.allPokemon = allPokemon?.results ?? []
-            self?.applySnapshot()
+            DispatchQueue.main.async {
+                self?.applySnapshot()
+            }
         }
     }
 }
@@ -85,7 +83,9 @@ extension AllPokemonViewController {
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: "PokemonCollectionCell",
                     for: indexPath) as? PokemonCollectionCell
-                cell?.update(with: self.allPokemon[indexPath.row])
+                if let pokemon = self.allPokemonViewModel?.allPokemon?.results[indexPath.row] {
+                    cell?.update(with: pokemon )
+                }
                 return cell
         })
         return dataSource
@@ -94,7 +94,7 @@ extension AllPokemonViewController {
     func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<PokemonSection, TopLevelPokemon>()
         snapshot.appendSections(PokemonSection.allCases)
-        snapshot.appendItems(allPokemon, toSection: .main)
+        snapshot.appendItems(allPokemonViewModel?.allPokemon?.results ?? [], toSection: .main)
         (collectionView.dataSource as?  UICollectionViewDiffableDataSource<PokemonSection, TopLevelPokemon>)?.apply(snapshot, animatingDifferences: false)
     }
 }
