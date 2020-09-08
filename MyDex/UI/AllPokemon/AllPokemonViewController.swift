@@ -7,45 +7,10 @@
 //
 
 import UIKit
-import Combine
-
-class AllPokemonViewModel: ObservableObject, Identifiable {
-    
-    @Published var allPokemon: AllPokemon?
-    
-    // disposables keep the network request alive
-    private var disposables = Set<AnyCancellable>()
-    
-    private let pokemonFetcher: PokemonFetcher
-    
-    init(pokemonFetcher: PokemonFetcher) {
-        self.pokemonFetcher = pokemonFetcher
-        pokemonFetcher.fetchAllPokemon().sink(receiveCompletion: { completion in
-            switch completion {
-            case .failure(let error):
-                print("Error: \(error.self)")
-            case .finished:
-                print("Successful completion")
-            }
-        }) { [weak self] allPokemon in
-            self?.allPokemon = allPokemon
-            }.store(in: &disposables)
-    }
-}
+import Combine // needed for AnyCancellable in the view controller
 
 enum PokemonSection: CaseIterable {
     case main
-}
-
-class PokemonCollectionCell: UICollectionViewCell {
-    @IBOutlet weak var pokemonName: UILabel!
-    
-    var pokemon: TopLevelPokemon?
-    
-    func update(with pokemon: TopLevelPokemon) {
-        self.pokemon = pokemon
-        pokemonName.text = pokemon.name
-    }
 }
 
 class AllPokemonViewController: UIViewController {
@@ -65,7 +30,7 @@ class AllPokemonViewController: UIViewController {
         setupView()
     }
     
-    @IBSegueAction func pokemonDetailSegue(_ coder: NSCoder) -> PokemonViewController? {
+    @IBSegueAction private func pokemonDetailSegue(_ coder: NSCoder) -> PokemonViewController? {
         guard let selectedPokemon = selectedPokemon else {
             return nil
         }

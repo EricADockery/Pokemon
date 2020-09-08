@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F452130425081243008814E1 /* PokemonCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452130325081243008814E1 /* PokemonCollectionCell.swift */; };
+		F45213062508127D008814E1 /* AllPokemonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45213052508127D008814E1 /* AllPokemonViewModel.swift */; };
 		F4A3E36F2426ABD2006925C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E36E2426ABD2006925C2 /* AppDelegate.swift */; };
 		F4A3E3712426ABD2006925C2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E3702426ABD2006925C2 /* SceneDelegate.swift */; };
 		F4A3E3732426ABD2006925C2 /* PokemonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E3722426ABD2006925C2 /* PokemonViewController.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F452130325081243008814E1 /* PokemonCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCollectionCell.swift; sourceTree = "<group>"; };
+		F45213052508127D008814E1 /* AllPokemonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPokemonViewModel.swift; sourceTree = "<group>"; };
 		F4A3E36B2426ABD2006925C2 /* MyDex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyDex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A3E36E2426ABD2006925C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4A3E3702426ABD2006925C2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				F4D3D24A242827FA00737F84 /* AllPokemonViewController.swift */,
+				F45213052508127D008814E1 /* AllPokemonViewModel.swift */,
+				F452130325081243008814E1 /* PokemonCollectionCell.swift */,
 			);
 			path = AllPokemon;
 			sourceTree = "<group>";
@@ -326,7 +332,9 @@
 				F4A3E3732426ABD2006925C2 /* PokemonViewController.swift in Sources */,
 				F4D3D24B242827FA00737F84 /* AllPokemonViewController.swift in Sources */,
 				F4A3E3A42426AF48006925C2 /* PokemonCharacter.swift in Sources */,
+				F45213062508127D008814E1 /* AllPokemonViewModel.swift in Sources */,
 				F4A3E36F2426ABD2006925C2 /* AppDelegate.swift in Sources */,
+				F452130425081243008814E1 /* PokemonCollectionCell.swift in Sources */,
 				F4A3E3712426ABD2006925C2 /* SceneDelegate.swift in Sources */,
 				F4D3D24724281F2000737F84 /* PokemonViewModel.swift in Sources */,
 				F4A3E3A22426AD23006925C2 /* NetworkClient.swift in Sources */,
