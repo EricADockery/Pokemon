@@ -7,6 +7,7 @@
 //
 
 import Combine
+import Foundation
 
 class PokemonViewModel: ObservableObject, Identifiable {
     //The properly delegate @Published modifier makes it possible to observe
@@ -23,16 +24,10 @@ class PokemonViewModel: ObservableObject, Identifiable {
     }
     
     func updateView(for location: String) {
-        pokemonFetcher.pokemon(for: location).sink(receiveCompletion: { error in
-                switch error {
-                case .failure(let error):
-                    print("Error: \(error.self)")
-                case .finished:
-                    print("Successful completion")
-                }
-            }) { [weak self] pokemon in
-                self?.pokemonCharacter = pokemon
-        }
-        .store(in: &disposables) //This has to be in every Publisher and keeps the request alive until the request finishes some way.
+        pokemonFetcher.pokemon(for: location)
+            .receive(on: DispatchQueue.main)
+            .replaceError(with: nil)
+            .assign(to: \.pokemonCharacter, on: self)
+            .store(in: &disposables) //This has to be in every Publisher and keeps the request alive until the request finishes some way.
     }
 }

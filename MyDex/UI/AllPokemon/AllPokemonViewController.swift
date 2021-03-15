@@ -48,16 +48,15 @@ extension AllPokemonViewController {
     func makeDataSource() ->  UICollectionViewDiffableDataSource<PokemonSection, TopLevelPokemon> {
         let dataSource = UICollectionViewDiffableDataSource<PokemonSection, TopLevelPokemon>(
             collectionView: collectionView,
-            cellProvider: { (collectionView, indexPath, video) ->
+            cellProvider: { (collectionView, indexPath, topLevelPokemon) ->
                 UICollectionViewCell? in
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: "PokemonCollectionCell",
                     for: indexPath) as? PokemonCollectionCell
-                if let pokemon = self.allPokemonViewModel?.allPokemon?.results[indexPath.row] {
-                    cell?.update(with: pokemon )
-                }
+                
+                cell?.update(with: topLevelPokemon)
                 return cell
-        })
+            })
         return dataSource
     }
     

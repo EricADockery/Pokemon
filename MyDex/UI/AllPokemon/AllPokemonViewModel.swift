@@ -20,15 +20,13 @@ class AllPokemonViewModel: ObservableObject, Identifiable {
     
     init(pokemonFetcher: PokemonFetcher) {
         self.pokemonFetcher = pokemonFetcher
-        pokemonFetcher.fetchAllPokemon().sink(receiveCompletion: { completion in
-            switch completion {
-            case .failure(let error):
-                print("Error: \(error.self)")
-            case .finished:
-                print("Successful completion")
-            }
-        }) { [weak self] allPokemon in
-            self?.allPokemon = allPokemon
-            }.store(in: &disposables)
+        
+        //This can be reduced by doing .compactMap {} and
+        // .replaceErrorWith {}
+        pokemonFetcher.fetchAllPokemon()
+            .receive(on: DispatchQueue.main)
+            .replaceError(with: nil)
+            .assign(to: \.allPokemon, on: self)
+            .store(in: &disposables)
     }
 }
