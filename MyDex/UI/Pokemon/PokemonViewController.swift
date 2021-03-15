@@ -19,8 +19,9 @@ final class PokemonViewController: UIViewController {
     @IBOutlet private weak var pokemonName: UILabel!
     
     init?(coder: NSCoder, pokemonViewModel: PokemonViewModel) {
-           self.pokemonViewModel = pokemonViewModel
-           super.init(coder: coder)
+        self.pokemonViewModel = pokemonViewModel
+        super.init(coder: coder)
+        self.pokemonViewModel.view = self
     }
     
     required init?(coder: NSCoder) {
@@ -29,10 +30,16 @@ final class PokemonViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         self.title = "Detail View"
         pokemonCharacterSubscriber = pokemonViewModel.$pokemonCharacter.sink() { [weak self] pokemon in
             self?.pokemonName.text = pokemon?.name
         }
+    }
+}
+
+extension PokemonViewController: PokemonDetailViewConformance {
+    func dismissOnBackground() {
+        self.navigationController?.popViewController(animated: false)
     }
 }
