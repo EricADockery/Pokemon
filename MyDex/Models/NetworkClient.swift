@@ -9,12 +9,12 @@
 import Foundation
 import Combine
 
-enum Error: Swift.Error {
+enum NetworkError: Error {
       case badResponseCode(Int)
       case malformedURL
   }
 
-class NetworkClient {
+final class NetworkClient {
     static let shared = NetworkClient()
     
     private let session = URLSession(configuration: .ephemeral)
@@ -22,7 +22,7 @@ class NetworkClient {
     
     private init() { }
     
-    func performCodableRequest<ModelType: Codable>(_ urlRequest: URLRequest, decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<ModelType, Swift.Error> {
+    func performCodableRequest<ModelType: Codable>(_ urlRequest: URLRequest, decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<ModelType, Error> {
         performDataRequest(urlRequest)
             .receive(on: decodeQueue)
             .decode(type: ModelType.self, decoder: decoder)
@@ -30,13 +30,12 @@ class NetworkClient {
             .eraseToAnyPublisher()
     }
     
-    //everything calling into the Network layer should be codable.
-    private func performDataRequest(_ urlRequest: URLRequest) -> AnyPublisher<Data, Swift.Error> {
+    private func performDataRequest(_ urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
         session.dataTaskPublisher(for: urlRequest)
             .tryMap { (data, response) -> Data in
                 if let httpURLResponse = response as? HTTPURLResponse,
                     !(200...300).contains(httpURLResponse.statusCode) {
-                    throw Error.badResponseCode(httpURLResponse.statusCode)
+                    throw NetworkError.badResponseCode(httpURLResponse.statusCode)
                 }
                 return data
             }
