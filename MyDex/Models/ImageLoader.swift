@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum ImageLoadError: Error {
+    case failedImageFromData
+}
+
 protocol ImageLoadFailed {
     func handleImageLoadFailing(_ error: Error)
 }
@@ -32,23 +36,24 @@ class ImageLoader {
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             defer {self.runningRequests.removeValue(forKey: uuid) }
-            if let data = data,
-               let image = UIImage(data: data) {
-                self.loadedImages[url] = image
-                completion(.success(image))
-                return
-            }
             
-            guard let error = error else {
-                return
-            }
-            
-            guard (error as NSError).code == NSURLErrorCancelled else {
+            if let error = error,
+               (error as NSError).code != NSURLErrorCancelled {
                 completion(.failure(error))
                 return
             }
             
+            guard let data = data,
+                  let image = UIImage(data: data) else {
+                completion(.failure(ImageLoadError.failedImageFromData))
+                return
+            }
+            
+            self.loadedImages[url] = image
+            completion(.success(image))
+            
         }
+        
         task.resume()
         runningRequests[uuid] = task
         return uuid
@@ -60,29 +65,32 @@ class ImageLoader {
     }
     
     func load(_ url: URL, for imageView: UIImageView) {
-      let token = self.loadImage(url) { result in
-        defer { self.uuidMap.removeValue(forKey: imageView) }
-        
-        switch result {
-        case .success(let image):
-            DispatchQueue.main.async {
-                imageView.image = image
+        let token = self.loadImage(url) { result in
+            defer { self.uuidMap.removeValue(forKey: imageView) }
+            
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    imageView.image = image
+                }
+            case .failure(let error):
+                self.imageLoadFailureDelegate?.handleImageLoadFailing(error)
             }
-        case .failure(let error):
-            self.imageLoadFailureDelegate?.handleImageLoadFailing(error)
         }
-       
-      }
-
-      if let token = token {
-        uuidMap[imageView] = token
-      }
+        
+        guard let thisToken = token else {
+            return
+        }
+        
+        uuidMap[imageView] = thisToken
     }
     
     func cancel(for imageView: UIImageView) {
-      if let uuid = uuidMap[imageView] {
-        self.cancelLoad(uuid)
+        guard let uuid = uuidMap[imageView]  else {
+            return
+        }
+        
+        cancelLoad(uuid)
         uuidMap.removeValue(forKey: imageView)
-      }
     }
 }
