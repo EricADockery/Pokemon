@@ -19,7 +19,7 @@ class AllPokemonViewController: UIViewController {
     //we have to store a reference so that when we call applySnapshot it works (also it will deallocate?? when we don't have it stored.
     private lazy var dataSource = makeDataSource()
     
-    private var selectedPokemon: TopLevelPokemon?
+    private var selectedPokemon: PokemonCharacter?
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
@@ -34,7 +34,7 @@ class AllPokemonViewController: UIViewController {
         guard let selectedPokemon = selectedPokemon else {
             return nil
         }
-        let pokemonDetailViewModel = PokemonViewModel(pokemonFetcher: PokemonFetcher(), topLevelPokemon: selectedPokemon)
+        let pokemonDetailViewModel = PokemonViewModel(pokemonFetcher: PokemonFetcher(), character: selectedPokemon)
         let viewController = PokemonViewController(coder: coder, pokemonViewModel: pokemonDetailViewModel)
         return viewController
     }
@@ -45,8 +45,8 @@ class AllPokemonViewController: UIViewController {
 //MARK: DataSource Methods
 extension AllPokemonViewController {
     
-    func makeDataSource() ->  UICollectionViewDiffableDataSource<PokemonSection, TopLevelPokemon> {
-        let dataSource = UICollectionViewDiffableDataSource<PokemonSection, TopLevelPokemon>(
+    func makeDataSource() ->  UICollectionViewDiffableDataSource<PokemonSection, PokemonCharacter> {
+        let dataSource = UICollectionViewDiffableDataSource<PokemonSection, PokemonCharacter>(
             collectionView: collectionView,
             cellProvider: { (collectionView, indexPath, topLevelPokemon) ->
                 UICollectionViewCell? in
@@ -61,17 +61,20 @@ extension AllPokemonViewController {
     }
     
     func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<PokemonSection, TopLevelPokemon>()
+        guard let allPokemon = allPokemonViewModel?.allPokemon else {
+            return
+        }
+        var snapshot = NSDiffableDataSourceSnapshot<PokemonSection, PokemonCharacter>()
         snapshot.appendSections(PokemonSection.allCases)
-        snapshot.appendItems(allPokemonViewModel?.allPokemon?.results ?? [], toSection: .main)
-        (collectionView.dataSource as?  UICollectionViewDiffableDataSource<PokemonSection, TopLevelPokemon>)?.apply(snapshot, animatingDifferences: false)
+        snapshot.appendItems(allPokemon, toSection: .main)
+        (collectionView.dataSource as?  UICollectionViewDiffableDataSource<PokemonSection, PokemonCharacter>)?.apply(snapshot, animatingDifferences: false)
     }
 }
 
 //MARK: UICollectionViewDelegate
 extension AllPokemonViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedPokemon = allPokemonViewModel?.allPokemon?.results[indexPath.row]
+        selectedPokemon = allPokemonViewModel?.allPokemon[indexPath.row]
         performSegue(withIdentifier: "PokemonDetails", sender: nil)
     }
 }
@@ -92,7 +95,7 @@ private extension AllPokemonViewController {
         collectionView.dataSource = dataSource
         //Don't forget the dollar sign when referencing publishers
         pokemonSubscriber = allPokemonViewModel?.$allPokemon.sink() { [weak self] allPokemon in
-            guard !(allPokemon?.results.isEmpty ?? true) else { return }
+            guard !(allPokemon.isEmpty) else { return }
             self?.activityIndicator.stopAnimating()
             DispatchQueue.main.async {
                 self?.applySnapshot()

@@ -11,8 +11,7 @@ import Combine
 
 class AllPokemonViewModel: ObservableObject, Identifiable {
     
-    @Published var allPokemon: AllPokemon?
-    
+    @Published var allPokemon = [PokemonCharacter]()
     // disposables keep the network request alive
     private var disposables = Set<AnyCancellable>()
     
@@ -26,7 +25,11 @@ class AllPokemonViewModel: ObservableObject, Identifiable {
         pokemonFetcher.fetchAllPokemon()
             .receive(on: DispatchQueue.main)
             .replaceError(with: nil)
+            .compactMap { $0 } //remove the optional TopLevelPokemon here
+            .flatMap { all in pokemonFetcher.allPokemon(for: all.results.map {$0.url})} //map the top level one so that we can get the real pokemon behind the data
+            .replaceError(with: []) // replace the array of real pokemon with [] if we fail.
             .assign(to: \.allPokemon, on: self)
             .store(in: &disposables)
+     
     }
 }

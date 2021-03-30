@@ -23,27 +23,8 @@ class PokemonViewModel: ObservableObject, Identifiable {
     private let pokemonFetcher: PokemonFetcher
     weak var view: PokemonDetailViewConformance?
     
-    init(pokemonFetcher: PokemonFetcher, topLevelPokemon: TopLevelPokemon) {
+    init(pokemonFetcher: PokemonFetcher, character: PokemonCharacter) {
         self.pokemonFetcher = pokemonFetcher
-        updateView(for: topLevelPokemon.url)
-        
-        NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)
-            .sink { [weak self] notification in
-                print(notification.name)
-                self?.handleBackgroundEvent()
-            }
-            .store(in: &disposables)
-    }
-    
-    func updateView(for location: String) {
-        pokemonFetcher.pokemon(for: location)
-            .receive(on: DispatchQueue.main)
-            .replaceError(with: nil)
-            .assign(to: \.pokemonCharacter, on: self)
-            .store(in: &disposables) //This has to be in every Publisher and keeps the request alive until the request finishes some way.
-    }
-    
-    func handleBackgroundEvent() {
-        view?.dismissOnBackground()
+        pokemonCharacter = character
     }
 }

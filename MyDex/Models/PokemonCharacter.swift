@@ -13,14 +13,25 @@ struct Type: Codable {
     let url: String
 }
 
+extension Type: Hashable {
+    
+}
+
 struct Types: Codable {
     let slot: Int
     let type: Type
+}
+extension Types: Hashable {
+    
 }
 
 struct Stat: Codable {
     let name: String
     let url: String
+}
+
+extension Stat: Hashable {
+    
 }
 
 struct Stats: Codable {
@@ -33,6 +44,10 @@ struct Stats: Codable {
         case effort
         case stat
     }
+}
+
+extension Stats: Hashable {
+    
 }
 
 struct Sprites: Codable {
@@ -56,10 +71,17 @@ struct Sprites: Codable {
         case frontShiny = "front_shiny"
     }
 }
+extension Sprites: Hashable {
+    
+}
 
 struct Species: Codable {
     let name: String
     let url: String
+}
+
+extension Species: Hashable {
+    
 }
 
 struct MoveLearnMethod: Codable {
@@ -67,9 +89,17 @@ struct MoveLearnMethod: Codable {
     let url: String
 }
 
+extension MoveLearnMethod: Hashable {
+    
+}
+
 struct VersionGroup: Codable {
     let name: String
     let url: String
+}
+
+extension VersionGroup: Hashable {
+    
 }
 
 struct VersionGroupDetails: Codable {
@@ -84,9 +114,17 @@ struct VersionGroupDetails: Codable {
     }
 }
 
+extension VersionGroupDetails: Hashable {
+    
+}
+
 struct MoveDetail: Codable {
     let name: String
     let url: String
+}
+
+extension MoveDetail: Hashable {
+    
 }
 
 struct Move: Codable {
@@ -100,14 +138,24 @@ struct Move: Codable {
     
 }
 
+extension Move: Hashable {
+    
+}
+
 struct EncounterMethod: Codable {
     let name: String
     let url: String
+}
+extension EncounterMethod: Hashable {
+    
 }
 
 struct ConditionValues: Codable {
     let name: String
     let url: String
+}
+extension ConditionValues: Hashable {
+    
 }
 
 struct EncounterDetails: Codable {
@@ -126,6 +174,10 @@ struct EncounterDetails: Codable {
     }
 }
 
+extension EncounterDetails: Hashable {
+    
+}
+
 struct LocationVersionDetails: Codable {
     let maxChance: Int // max_chance
     let encounterDetails: [EncounterDetails] // encounter_details
@@ -137,9 +189,17 @@ struct LocationVersionDetails: Codable {
     }
 }
 
+extension LocationVersionDetails: Hashable {
+    
+}
+
 struct LocationArea: Codable {
     let name: String
     let url: String
+}
+
+extension LocationArea: Hashable {
+    
 }
 
 struct LocationAreaEncounters: Codable {
@@ -152,14 +212,23 @@ struct LocationAreaEncounters: Codable {
     }
 }
 
+extension LocationAreaEncounters: Hashable {
+    
+}
+
 struct VersionDetails: Codable {
     let rarity: Int
     let version: Version
+}
+extension VersionDetails: Hashable {
 }
 
 struct Item: Codable {
     let name: String
     let url: String
+}
+extension Item: Hashable {
+    
 }
 
 struct HeldItems: Codable {
@@ -171,10 +240,16 @@ struct HeldItems: Codable {
         case versionDetails = "version_details"
     }
 }
+extension HeldItems: Hashable {
+    
+}
 
 struct Version: Codable {
     let name: String
     let url: String
+}
+extension Version: Hashable {
+    
 }
 
 struct GameIndices: Codable {
@@ -187,14 +262,25 @@ struct GameIndices: Codable {
     }
 }
 
+extension GameIndices: Hashable {
+}
+
 struct Forms: Codable {
     let name: String
     let url: String
 }
 
+extension Forms: Hashable {
+    
+}
+
 struct Ability: Codable {
     let name: String
     let url: String
+}
+
+extension Ability: Hashable {
+    
 }
 
 struct Abilities: Codable {
@@ -207,6 +293,9 @@ struct Abilities: Codable {
         case slot
         case ability
     }
+}
+
+extension Abilities: Hashable {
 }
 
 //GET /api/v2/pokemon/{id or name}/
@@ -249,6 +338,8 @@ struct PokemonCharacter: Codable {
         case types
     }
 }
+
+extension PokemonCharacter: Hashable {}
 
 struct TopLevelPokemon: Codable {
     let name: String

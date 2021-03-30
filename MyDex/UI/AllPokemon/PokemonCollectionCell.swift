@@ -11,9 +11,9 @@ import UIKit
 class PokemonCollectionCell: UICollectionViewCell {
     @IBOutlet weak var pokemonName: UILabel!
     
-    var pokemon: TopLevelPokemon?
+    var pokemon: PokemonCharacter?
     
-    func update(with pokemon: TopLevelPokemon) {
+    func update(with pokemon: PokemonCharacter) {
         self.pokemon = pokemon
         pokemonName.text = pokemon.name
     }

@@ -24,7 +24,7 @@ class PokemonFetcher: Fetcher {
     
     private let pokemonEndpoint = "/api/v2/pokemon/"
         
-    func pokemon(for location: String) -> AnyPublisher<PokemonCharacter?, Swift.Error>  {
+    func pokemon(for location: String) -> AnyPublisher<PokemonCharacter, Swift.Error>  {
         //force unwrap because I don't know how to guard return error here...
         guard let pokemonURL = URL(string: location) else {
             let error = NetworkError.malformedURL
@@ -34,9 +34,15 @@ class PokemonFetcher: Fetcher {
         return NetworkClient.shared.performCodableRequest(urlRequest)
     }
     
+    func allPokemon(for locations: [String]) -> AnyPublisher<[PokemonCharacter], Swift.Error> {
+        return Publishers.MergeMany(locations.map { pokemon(for: $0)})
+            .collect()
+            .eraseToAnyPublisher()
+    }
+    
     func fetchAllPokemon() -> AnyPublisher<AllPokemon?, Swift.Error> {
         //https://pokeapi.co/api/v2/pokemon/?offset=0&limit=9999
-        guard let pokemonURL = URL(string: "\(baseURLString)\(pokemonEndpoint)?offset=0&limit=9999") else {
+        guard let pokemonURL = URL(string: "\(baseURLString)\(pokemonEndpoint)?offset=0&limit=898") else {
             let error = NetworkError.malformedURL
             return Fail(error: error).eraseToAnyPublisher()
         }
