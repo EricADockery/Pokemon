@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F401B5942612ED8B00541A04 /* BaseReuseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401B5932612ED8B00541A04 /* BaseReuseCollectionViewCell.swift */; };
+		F401B59D2612EE3600541A04 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401B59C2612EE3600541A04 /* ImageLoader.swift */; };
+		F401B5B12612F33E00541A04 /* UIImageView+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401B5B02612F33E00541A04 /* UIImageView+Loading.swift */; };
 		F452130425081243008814E1 /* PokemonCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452130325081243008814E1 /* PokemonCollectionCell.swift */; };
 		F45213062508127D008814E1 /* AllPokemonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45213052508127D008814E1 /* AllPokemonViewModel.swift */; };
 		F4A3E36F2426ABD2006925C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A3E36E2426ABD2006925C2 /* AppDelegate.swift */; };
@@ -44,6 +47,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F401B5932612ED8B00541A04 /* BaseReuseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseReuseCollectionViewCell.swift; sourceTree = "<group>"; };
+		F401B59C2612EE3600541A04 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		F401B5B02612F33E00541A04 /* UIImageView+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Loading.swift"; sourceTree = "<group>"; };
 		F452130325081243008814E1 /* PokemonCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCollectionCell.swift; sourceTree = "<group>"; };
 		F45213052508127D008814E1 /* AllPokemonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPokemonViewModel.swift; sourceTree = "<group>"; };
 		F4A3E36B2426ABD2006925C2 /* MyDex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyDex.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +123,7 @@
 		F4A3E36D2426ABD2006925C2 /* MyDex */ = {
 			isa = PBXGroup;
 			children = (
+				F401B5B02612F33E00541A04 /* UIImageView+Loading.swift */,
 				F4A3E3A02426AC4C006925C2 /* Models */,
 				F4A3E39F2426AC41006925C2 /* Delegates */,
 				F4A3E39E2426AC2C006925C2 /* UI */,
@@ -149,6 +156,7 @@
 		F4A3E39E2426AC2C006925C2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F401B5932612ED8B00541A04 /* BaseReuseCollectionViewCell.swift */,
 				F4D3D24C2428282100737F84 /* AllPokemon */,
 				F4D3D24524281F0300737F84 /* Pokemon */,
 				F4A3E3792426ABD3006925C2 /* LaunchScreen.storyboard */,
@@ -171,6 +179,7 @@
 			children = (
 				F4A3E3A12426AD23006925C2 /* NetworkClient.swift */,
 				F4A3E3A32426AF48006925C2 /* PokemonCharacter.swift */,
+				F401B59C2612EE3600541A04 /* ImageLoader.swift */,
 				F4A3E3A92426C465006925C2 /* PokemonFetcher.swift */,
 			);
 			path = Models;
@@ -330,11 +339,14 @@
 			files = (
 				F4A3E3AA2426C465006925C2 /* PokemonFetcher.swift in Sources */,
 				F4A3E3732426ABD2006925C2 /* PokemonViewController.swift in Sources */,
+				F401B59D2612EE3600541A04 /* ImageLoader.swift in Sources */,
 				F4D3D24B242827FA00737F84 /* AllPokemonViewController.swift in Sources */,
 				F4A3E3A42426AF48006925C2 /* PokemonCharacter.swift in Sources */,
 				F45213062508127D008814E1 /* AllPokemonViewModel.swift in Sources */,
+				F401B5B12612F33E00541A04 /* UIImageView+Loading.swift in Sources */,
 				F4A3E36F2426ABD2006925C2 /* AppDelegate.swift in Sources */,
 				F452130425081243008814E1 /* PokemonCollectionCell.swift in Sources */,
+				F401B5942612ED8B00541A04 /* BaseReuseCollectionViewCell.swift in Sources */,
 				F4A3E3712426ABD2006925C2 /* SceneDelegate.swift in Sources */,
 				F4D3D24724281F2000737F84 /* PokemonViewModel.swift in Sources */,
 				F4A3E3A22426AD23006925C2 /* NetworkClient.swift in Sources */,

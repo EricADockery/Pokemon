@@ -8,7 +8,9 @@
 
 import UIKit
 
-class PokemonCollectionCell: UICollectionViewCell {
+class PokemonCollectionCell: BaseReuseCollectionViewCell {
+    
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var pokemonName: UILabel!
     
     var pokemon: PokemonCharacter?
@@ -16,5 +18,17 @@ class PokemonCollectionCell: UICollectionViewCell {
     func update(with pokemon: PokemonCharacter) {
         self.pokemon = pokemon
         pokemonName.text = pokemon.name
+        if let spriteLocation = pokemon.sprites.frontDefault ?? pokemon.sprites.frontShiny,
+           let url = URL(string: spriteLocation)
+        {
+            imageView.loadImage(at: url)
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.image = nil
+        imageView.cancelImageLoad()
     }
 }

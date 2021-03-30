@@ -30,6 +30,5 @@ class AllPokemonViewModel: ObservableObject, Identifiable {
             .replaceError(with: []) // replace the array of real pokemon with [] if we fail.
             .assign(to: \.allPokemon, on: self)
             .store(in: &disposables)
-     
     }
 }
