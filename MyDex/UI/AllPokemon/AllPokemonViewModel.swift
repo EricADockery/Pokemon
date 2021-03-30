@@ -28,6 +28,7 @@ class AllPokemonViewModel: ObservableObject, Identifiable {
             .compactMap { $0 } //remove the optional TopLevelPokemon here
             .flatMap { all in pokemonFetcher.allPokemon(for: all.results.map {$0.url})} //map the top level one so that we can get the real pokemon behind the data
             .replaceError(with: []) // replace the array of real pokemon with [] if we fail.
+            .map { $0.sorted { $0.id < $1.id } } //sort them by id first (TODO: feature enhancement add a button to the Navigation bar to sort by different things)
             .assign(to: \.allPokemon, on: self)
             .store(in: &disposables)
     }
