@@ -8,12 +8,18 @@
 
 import UIKit
 
+protocol ImageLoadFailed {
+    func handleImageLoadFailing(_ error: Error)
+}
+
 class ImageLoader {
     private var loadedImages = [URL: UIImage]()
     private var runningRequests = [UUID: URLSessionDataTask]()
     private var uuidMap = [UIImageView: UUID]()
     static let shared = ImageLoader()
     private init() { }
+    
+    var imageLoadFailureDelegate: ImageLoadFailed?
     
     func loadImage(_ url: URL, _ completion: @escaping (Result<UIImage, Error>) -> Void) -> UUID? {
         
@@ -33,7 +39,6 @@ class ImageLoader {
                 return
             }
             
-            // TODO: figure out what to do here.
             guard let error = error else {
                 return
             }
@@ -57,14 +62,16 @@ class ImageLoader {
     func load(_ url: URL, for imageView: UIImageView) {
       let token = self.loadImage(url) { result in
         defer { self.uuidMap.removeValue(forKey: imageView) }
-        do {
-          let image = try result.get()
-          DispatchQueue.main.async {
-            imageView.image = image
-          }
-        } catch {
-          // TODO: handle error
+        
+        switch result {
+        case .success(let image):
+            DispatchQueue.main.async {
+                imageView.image = image
+            }
+        case .failure(let error):
+            self.imageLoadFailureDelegate?.handleImageLoadFailing(error)
         }
+       
       }
 
       if let token = token {
